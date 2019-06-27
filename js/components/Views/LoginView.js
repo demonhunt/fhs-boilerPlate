@@ -33,11 +33,8 @@ class LoginView extends Component {
       secureTextEntry: true,
       message: '',
       isShowAlertView: false,
-      isShowLogin: false,
-      database: this.props.chooseDatabase.database,
     }
-    this.fetchedData = false
-    this.count = 0
+   
   }
 
   _loginIn() {
@@ -45,74 +42,13 @@ class LoginView extends Component {
       user: this.state.user.trim().toLowerCase(),
       pass: this.state.pass.trim(),
     }
-    if (this.fetchedData) {
-      return true
-    }
+ 
     if (data.user && data.pass) {
-      this.fetchedData = true
-      this.loadingView.showLoadingView()
-      this.props.dispatch(login(data.user, data.pass, this.viewID))
+      this.props.dispatch(login(data.user, data.pass))
     }
   }
-  componentWillReceiveProps(nextProps) {
-    console.log("receiveProp---------------------:",nextProps)
-    if (
-      this.fetchedData &&
-      this.viewID === nextProps.user.viewID &&
-      nextProps.user.success
-    ) {
-      this.loadingView.hideLoadingView()
+  
 
-      this.fetchedData = false
-    }
-    if (
-      this.fetchedData &&
-      this.viewID === nextProps.user.viewID &&
-      !nextProps.user.success
-    ) {
-      this.fetchedData = false
-      this.loadingView.hideLoadingView()
-      this.setState({
-        isShowAlertView: true,
-        message: nextProps.user.message
-          ? nextProps.user.message
-          : 'Đăng nhập thất bại',
-      })
-    }
-  }
-
-  logIn() {
-    let data = {
-      userId: 'sa@fahasa.com',
-      password: md5Hex(this.state.pass + 'fhs'),
-    }
-    
-    this.props
-      .dispatch(ApiPost('api/authenticate', data, true))
-      .then(response => {
-        if (response.errorCode == '0') {
-          this.setState({ loggedin: true })
-        } else if ((response.error = 2)) {
-          Toast.show('Sai mật khẩu', {
-            duration: Toast.durations.SHORT,
-            position: 50,
-            shadow: true,
-            animation: true,
-            hideOnPress: true,
-            delay: 0,
-            backgroundColor: 'red',
-            textColor: 'white',
-            textStyle: { fontSize: 18, fontWeight: 'bold' },
-            onHidden: () => {
-              this.isShowShelfToast = false
-            },
-          })
-        }
-      })
-  }
-  chooseDatabase(database) {
-    this.props.dispatch(chooseDatabase(database))
-  }
   render() {
     let nameIcon = this.state.secureTextEntry ? 'ios-eye-off' : 'ios-eye'
     let iconVisible = (
@@ -128,191 +64,6 @@ class LoginView extends Component {
 
     return (
       <View style={styles.container}>
-        <Modal
-          animationType={'none'}
-          transparent={true}
-          visible={this.state.isShowLogin}
-          onRequestClose={() => {}}
-        >
-          <View style={styles.modalcontainer}>
-            <View
-              style={{
-                backgroundColor: 'white',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: 10,
-                borderWidth: 1,
-              }}
-            >
-              <View style={{ flexDirection: 'column' }}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Text
-                    style={{ fontWeight: 'bold', color: 'black', fontSize: 20 }}
-                  >
-                    Local
-                  </Text>
-                  <CheckBox
-                    disable={true}
-                    checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
-                    checked={this.state.database == 'Local'}
-                    onPress={() => {
-                      if (this.state.loggedin) {
-                        this.setState({ database: 'Local' })
-                      } else {
-                      }
-                    }}
-                    checkedColor="#FF971E"
-                    containerStyle={{
-                      backgroundColor: 'transparent',
-                      borderRadius: 20,
-                      borderColor: '#fff',
-                    }}
-                  />
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Text
-                    style={{ fontWeight: 'bold', color: 'black', fontSize: 20 }}
-                  >
-                    Test
-                  </Text>
-                  <CheckBox
-                    disable={true}
-                    checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
-                    checked={this.state.database == 'Test'}
-                    onPress={() => {
-                      if (this.state.loggedin) {
-                        this.setState({ database: 'Test' })
-                      } else {
-                      }
-                    }}
-                    checkedColor="#FF971E"
-                    containerStyle={{
-                      backgroundColor: 'transparent',
-                      borderRadius: 20,
-                      borderColor: '#fff',
-                    }}
-                  />
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Text
-                    style={{ fontWeight: 'bold', color: 'black', fontSize: 20 }}
-                  >
-                    Production
-                  </Text>
-                  <CheckBox
-                    disable={true}
-                    checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
-                    checked={this.state.database == 'Production'}
-                    onPress={() => {
-                      if (this.state.loggedin) {
-                        this.setState({ database: 'Production' })
-                      } else {
-                      }
-                    }}
-                    checkedColor="#FF971E"
-                    containerStyle={{
-                      backgroundColor: 'transparent',
-                      borderRadius: 20,
-                      borderColor: '#fff',
-                    }}
-                  />
-                </View>
-              </View>
-
-              {this.state.loggedin ? null : (
-                <View style={styles.inputContainer}>
-                  <TextInput
-                    value={this.state.pass}
-                    onChangeText={text => {
-                      this.setState({ pass: text })
-                    }}
-                    placeholderTextColor={globalSetting.lineColor}
-                    placeholder="Mật khẩu"
-                    secureTextEntry={true}
-                    style={styles.inputForm}
-                    underlineColorAndroid="transparent"
-                  />
-                </View>
-              )}
-              <View style={{ flexDirection: 'row' }}>
-                {this.state.loggedin ? null : (
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: globalSetting.main_orange_color,
-                      margin: 15,
-                      padding: 10,
-                      borderRadius: 10,
-                    }}
-                    onPress={() => {
-                      this.setState({ isShowLogin: false })
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        color: 'white',
-                        fontSize: 15,
-                      }}
-                    >
-                      Hủy
-                    </Text>
-                  </TouchableOpacity>
-                )}
-
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: globalSetting.main_orange_color,
-                    margin: 15,
-                    padding: 10,
-                    borderRadius: 10,
-                  }}
-                  onPress={() => {
-                    if (this.state.loggedin) {
-                      this.chooseDatabase(this.state.database)
-                      this.setState({ isShowLogin: false })
-                    } else {
-                      this.logIn()
-                    }
-                  }}
-                >
-                  <Text
-                    style={{ fontWeight: 'bold', color: 'white', fontSize: 15 }}
-                  >
-                    {this.state.loggedin ? 'Xác nhận' : 'Nhập'}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </Modal>
-        <AlertView
-          isShowAlertView={this.state.isShowAlertView}
-          callBack={() => {
-            this.setState({ isShowAlertView: false })
-          }}
-          message={this.state.message}
-        />
         <View style={{ flex: 1 }}>
           <TouchableOpacity
             style={styles.welcomeContainer}
@@ -488,7 +239,6 @@ const styles = StyleSheet.create({
 function select(store) {
   return {
     user: store.user,
-    chooseDatabase: store.chooseDatabase,
   }
 }
 

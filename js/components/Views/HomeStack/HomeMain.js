@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { logout } from "../../../actions";
+import globalSetting from "../../../common/setting"
 import { PermissionsAndroid } from "react-native";
 export default class HomeMain extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -48,8 +49,26 @@ export default class HomeMain extends Component {
 
   render() {
     return (
-      <View>
-        <Text>Welcome to my home</Text>
+      <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <Text>Welcome</Text>
+        <TouchableOpacity style={{
+          backgroundColor: globalSetting.main_orange_color,
+          padding: 20,margin: 20
+        }}
+        onPress = {()=>{
+          this.props.dispatch({
+            type: 'LOGOUT_SUCCESS'
+          })
+        }}
+        
+        >
+          <Text>Logout</Text>
+        </TouchableOpacity>
       </View>
     );
   }
