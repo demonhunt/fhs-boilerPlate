@@ -1,0 +1,41 @@
+{
+  "name": "BoilerPlate",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "react": "16.8.3",
+    "react-native": "0.59.9",
+    "axios": "^0.19.0",
+    "md5-hex": "^2.0.0",
+    "react-native-barcode-scanner-google": "https://github.com/demonhunt/react-native-barcode-scanner-google.git",
+    "react-native-camera": "^1.1.1",
+    "native-base": "^2.12.1",
+    "@react-native-community/async-storage": "^1.4.2",
+    "lodash": "^4.17.11",
+    "react-navigation": "^2.18.3",
+    "react-native-elements": "^0.19.1",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "4.9.1",
+    "redux-thunk": "^2.2.0",
+    "react-native-root-toast": "^3.0.1",
+    "react-native-print": "^0.5.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/runtime": "^7.4.5",
+    "babel-jest": "^24.8.0",
+    "flow-bin": "0.92.0",
+    "jest": "^24.8.0",
+    "metro-react-native-babel-preset": "^0.54.1",
+    "react-test-renderer": "16.8.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
