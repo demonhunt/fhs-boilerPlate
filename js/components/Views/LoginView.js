@@ -30,9 +30,10 @@ class LoginView extends Component {
           ? props.user.userInfor.username
           : '',
       pass: '',
+
       secureTextEntry: true,
       message: '',
-      isShowAlertView: false,
+      isShowAlertView: true,
     }
    
   }
@@ -53,32 +54,43 @@ class LoginView extends Component {
     let nameIcon = this.state.secureTextEntry ? 'ios-eye-off' : 'ios-eye'
     let iconVisible = (
       <TouchableOpacity
-        style={{ width: 50, alignItems: 'flex-end' }}
+        style={{ width: 50, alignItems: "flex-end" }}
         onPress={() =>
           this.setState({ secureTextEntry: !this.state.secureTextEntry })
         }
       >
-        <Ionicons name={nameIcon} size={25} color={globalSetting.lineColor} />
+        <Ionicons
+          name={nameIcon}
+          size={25}
+          color={globalSetting.lineColor}
+        />
       </TouchableOpacity>
-    )
+    );
 
     return (
       <View style={styles.container}>
+        <AlertView
+          isShowAlertView={this.state.isShowAlertView}
+          callBack={() => {
+            this.setState({ isShowAlertView: false });
+          }}
+          message={"dfdlfjdlfjkld"}
+        />
         <View style={{ flex: 1 }}>
           <TouchableOpacity
             style={styles.welcomeContainer}
             onPress={() => {
               if (this.count < 4) {
-                this.count++
+                this.count++;
               } else {
-                this.setState({ isShowLogin: true })
-                this.count = 0
+                this.setState({ isShowLogin: true });
+                this.count = 0;
               }
             }}
           >
             <Image
               style={{ width: 110, height: 110 }}
-              source={ImageUtil.getImageSource('fahasaPromotion')}
+              source={ImageUtil.getImageSource("fahasaPromotion")}
               resizeMode="contain"
             />
             <View style={styles.welcomeView}>
@@ -87,12 +99,12 @@ class LoginView extends Component {
           </TouchableOpacity>
           <View style={styles.loginContainer}>
             <KeyboardAvoidingView>
-              <View style={{ alignItems: 'center' }}>
+              <View style={{ alignItems: "center" }}>
                 <View style={styles.inputContainer}>
                   <TextInput
                     value={this.state.user}
                     onChangeText={text => {
-                      this.setState({ user: text })
+                      this.setState({ user: text });
                     }}
                     placeholder="Tài khoản"
                     style={styles.inputForm}
@@ -106,7 +118,7 @@ class LoginView extends Component {
                   <TextInput
                     value={this.state.pass}
                     onChangeText={text => {
-                      this.setState({ pass: text })
+                      this.setState({ pass: text });
                     }}
                     placeholderTextColor={globalSetting.lineColor}
                     placeholder="Mật khẩu"
@@ -120,7 +132,7 @@ class LoginView extends Component {
                 <View style={styles.welcomeView}>
                   <TouchableOpacity
                     onPress={() => {
-                      this._loginIn()
+                      this._loginIn();
                     }}
                   >
                     <View style={styles.loginButton}>
@@ -138,7 +150,7 @@ class LoginView extends Component {
           </View>
         </View>
       </View>
-    )
+    );
   }
 }
 
