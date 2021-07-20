@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "react": "16.8.3",
-    "react-native": "0.59.9",
+    "react-native": "0.62.3",
     "axios": "^0.19.0",
     "md5-hex": "^2.0.0",
     "react-native-barcode-scanner-google": "https://github.com/demonhunt/react-native-barcode-scanner-google.git",
